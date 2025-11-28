@@ -4,20 +4,17 @@ using UnityEngine;
 
 namespace SlopJam.Player
 {
-    [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(PlayerRuntime))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float rotationSmoothTime = 0.05f;
 
-        private CharacterController characterController;
         private PlayerRuntime runtime;
         private InputService inputService;
-        private Vector3 rotationVelocity;
+        private Vector3 aimDirection = Vector3.up;
 
         private void Awake()
         {
-            characterController = GetComponent<CharacterController>();
             runtime = GetComponent<PlayerRuntime>();
         }
 
@@ -44,24 +41,28 @@ namespace SlopJam.Player
         private void HandleMovement()
         {
             var moveInput = inputService.Move;
-            var movement = new Vector3(moveInput.x, 0f, moveInput.y);
-            characterController.SimpleMove(movement * runtime.Config.moveSpeed);
+            var movement = new Vector3(moveInput.x, moveInput.y, 0f);
+            var displacement = movement * runtime.Config.moveSpeed * Time.deltaTime;
+            transform.position += displacement;
 
             var aim = inputService.Aim;
-            if (aim.sqrMagnitude > 0.01f)
+            if (aim.sqrMagnitude > 0.0001f)
             {
-                var targetRotation = Mathf.Atan2(aim.x, aim.y) * Mathf.Rad2Deg;
-                var yRot = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity.y, rotationSmoothTime);
-                transform.rotation = Quaternion.Euler(0f, yRot, 0f);
+                aimDirection = new Vector3(aim.x, aim.y, 0f).normalized;
+                var targetRotation = Quaternion.LookRotation(Vector3.forward, aimDirection);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSmoothTime * 360f * Time.deltaTime);
             }
         }
 
         private void HandleShooting()
         {
-            if (inputService.IsShooting && runtime.Weapon != null)
+            if (!inputService.IsShooting || runtime.Weapon == null)
             {
-                runtime.Weapon.TryShoot(transform.forward);
+                return;
             }
+
+            var direction = aimDirection.sqrMagnitude > 0.0001f ? aimDirection : transform.up;
+            runtime.Weapon.TryShoot(direction);
         }
     }
 }

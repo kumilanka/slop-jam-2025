@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Style src="GameHUD.uss" />
+    <ui:VisualElement class="hud-root">
+        <ui:VisualElement name="status-bar" class="status-bar">
+            <ui:VisualElement class="health-block">
+                <ui:Label text="HEALTH" class="health-label" />
+                <ui:Label name="health-value" class="health-value" text="5 / 5" />
+            </ui:VisualElement>
+            <ui:VisualElement name="hearts" class="hearts">
+                <ui:VisualElement class="heart heart--active" />
+                <ui:VisualElement class="heart heart--active" />
+                <ui:VisualElement class="heart heart--active" />
+                <ui:VisualElement class="heart heart--active" />
+                <ui:VisualElement class="heart heart--active" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="game-over-panel" class="game-over hidden">
+            <ui:Label class="game-over__title" text="Game Over" />
+            <ui:Label class="game-over__subtitle" text="Click retry to try again." />
+            <ui:VisualElement class="game-over__actions">
+                <ui:Button name="retry-button" text="Retry" />
+                <ui:Button name="quit-button" text="Quit" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
+

@@ -5,32 +5,19 @@ namespace SlopJam.UI
 {
     public class GameOverView : MonoBehaviour
     {
-        [SerializeField] private GameObject root;
+        [SerializeField] private HUDDocumentView documentView;
         [SerializeField] private UnityEvent onShown;
         [SerializeField] private UnityEvent onHidden;
 
-        private void Awake()
-        {
-            Hide();
-        }
-
         public void Show()
         {
-            if (root != null)
-            {
-                root.SetActive(true);
-            }
-
+            documentView?.ShowGameOver();
             onShown?.Invoke();
         }
 
         public void Hide()
         {
-            if (root != null)
-            {
-                root.SetActive(false);
-            }
-
+            documentView?.HideGameOver();
             onHidden?.Invoke();
         }
     }

@@ -1,15 +1,11 @@
 using SlopJam.Player;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace SlopJam.UI
 {
     public class HUDController : MonoBehaviour
     {
-        [System.Serializable]
-        public class HealthChangedEvent : UnityEvent<int, int> { }
-
-        [SerializeField] private HealthChangedEvent onHealthChanged;
+        [SerializeField] private HUDDocumentView documentView;
 
         public void Bind(PlayerRuntime player)
         {
@@ -24,7 +20,7 @@ namespace SlopJam.UI
 
         private void HandleHealthChanged(int current, int max)
         {
-            onHealthChanged?.Invoke(current, max);
+            documentView?.UpdateHealth(current, max);
         }
     }
 }

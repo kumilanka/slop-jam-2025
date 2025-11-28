@@ -50,21 +50,27 @@ namespace SlopJam.Core
                 return;
             }
 
-            var ray = camera.ScreenPointToRay(Input.mousePosition);
-            var plane = new Plane(Vector3.up, aimOrigin.position);
-
-            if (plane.Raycast(ray, out float enter))
+            var mouse = Input.mousePosition;
+            if (!camera.orthographic)
             {
-                var hitPoint = ray.GetPoint(enter);
-                var direction = hitPoint - aimOrigin.position;
-                direction.y = 0f;
+                mouse.z = Mathf.Abs(camera.transform.position.z - aimOrigin.position.z);
+            }
 
-                var aim = new Vector2(direction.x, direction.z).normalized;
-                if ((aim - Aim).sqrMagnitude > 0.0001f)
-                {
-                    Aim = aim;
-                    OnAim?.Invoke(Aim);
-                }
+            var world = camera.ScreenToWorldPoint(mouse);
+            var direction = world - aimOrigin.position;
+            direction.z = 0f;
+
+            var aim = new Vector2(direction.x, direction.y);
+            if (aim.sqrMagnitude < 0.0001f)
+            {
+                return;
+            }
+
+            aim.Normalize();
+            if ((aim - Aim).sqrMagnitude > 0.0001f)
+            {
+                Aim = aim;
+                OnAim?.Invoke(Aim);
             }
         }
 

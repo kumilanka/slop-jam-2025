@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2592390694239866300}
   - component: {fileID: 3683341696236425613}
   - component: {fileID: -2970626896445315367}
+  - component: {fileID: -248124904018042984}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -165,3 +166,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-248124904018042984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562492086457755356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498ec516eb3ffad45b59bb030e904309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlopJam.Combat.Projectile
+  lifeTime: 3

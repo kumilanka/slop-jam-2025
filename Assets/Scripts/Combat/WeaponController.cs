@@ -26,6 +26,19 @@ namespace SlopJam.Combat
         {
             if (!canShoot || definition == null || definition.projectilePrefab == null)
             {
+                if (definition == null)
+                {
+                    Debug.LogWarning($"{name} weapon has no definition assigned.");
+                }
+                else if (definition.projectilePrefab == null)
+                {
+                    Debug.LogWarning($"{name} weapon definition has no projectile prefab.");
+                }
+                return;
+            }
+
+            if (direction.sqrMagnitude < 0.0001f)
+            {
                 return;
             }
 
@@ -36,7 +49,10 @@ namespace SlopJam.Combat
         {
             canShoot = false;
 
-            var projectile = Instantiate(definition.projectilePrefab, muzzle.position, Quaternion.LookRotation(direction));
+            var spawnPoint = muzzle != null ? muzzle.position : transform.position;
+            var rotation = Quaternion.LookRotation(Vector3.forward, direction);
+
+            var projectile = Instantiate(definition.projectilePrefab, spawnPoint, rotation);
             projectile.Initialize(definition.damage, definition.projectileSpeed, damageSystem, gameObject);
 
             yield return new WaitForSeconds(definition.fireCooldown);

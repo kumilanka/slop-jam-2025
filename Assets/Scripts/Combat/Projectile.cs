@@ -3,19 +3,20 @@ using UnityEngine;
 
 namespace SlopJam.Combat
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private float lifeTime = 3f;
 
-        private Rigidbody rb;
+        private Rigidbody2D rb;
         private DamageSystem damageSystem;
         private int damage;
         private GameObject instigator;
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
         public void Initialize(int damageAmount, float speed, DamageSystem system, GameObject source)
@@ -23,11 +24,11 @@ namespace SlopJam.Combat
             damage = damageAmount;
             damageSystem = system;
             instigator = source;
-            rb.linearVelocity = transform.forward * speed;
+            rb.linearVelocity = (Vector2)transform.up * speed;
             Destroy(gameObject, lifeTime);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject == instigator)
             {
