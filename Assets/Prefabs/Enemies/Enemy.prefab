@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1122334455}
   - component: {fileID: 4488112233}
   - component: {fileID: 2233445566}
+  - component: {fileID: 7788990011}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -198,4 +199,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f678901234567890abcdef12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlopJam.Core.DestroyOnDeath
-  delay: 0.1
+--- !u!114 &7788990011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394191065239733856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d4e5f678901234567890abcdef1234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlopJam.Effects.DamageFlash
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1

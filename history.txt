@@ -16,3 +16,4 @@
 - Fixed Player sprite locking issue by disabling `autoUpdateFromSelf` in DirectionalSprite component on Player prefab.
 - Restored missing `BoxCollider2D` on Enemy prefab.
 - Added `DestroyOnDeath` component to Enemy prefab to ensure enemies disappear when killed.
+- Implemented on-hit damage flash effect using `DamageFlash` component; attached to Player and Enemy prefabs.
