@@ -17,6 +17,8 @@ namespace SlopJam.Hazards
 
         private Transform player;
         private Vector3 defaultCenter;
+        private Rigidbody2D leftBody;
+        private Rigidbody2D rightBody;
 
         private void Awake()
         {
@@ -26,6 +28,9 @@ namespace SlopJam.Hazards
                 enabled = false;
                 return;
             }
+
+            leftBody = leftWall.GetComponent<Rigidbody2D>();
+            rightBody = rightWall.GetComponent<Rigidbody2D>();
 
             defaultCenter = (leftWall.position + rightWall.position) * 0.5f;
             cycleDuration = Mathf.Max(0.1f, cycleDuration);
@@ -37,7 +42,7 @@ namespace SlopJam.Hazards
             player = FindFirstObjectByType<PlayerRuntime>()?.transform;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             var center = ResolveCenter();
             var normalizedTime = Mathf.PingPong(Time.time / cycleDuration, 1f);
@@ -50,8 +55,28 @@ namespace SlopJam.Hazards
             var rightTarget = rightWall.position;
             rightTarget.x = center.x + currentGap * 0.5f;
 
-            leftWall.position = Vector3.MoveTowards(leftWall.position, leftTarget, followSpeed * Time.deltaTime);
-            rightWall.position = Vector3.MoveTowards(rightWall.position, rightTarget, followSpeed * Time.deltaTime);
+            MoveWall(leftWall, leftBody, leftTarget);
+            MoveWall(rightWall, rightBody, rightTarget);
+        }
+
+        private void MoveWall(Transform wallTrans, Rigidbody2D wallBody, Vector3 targetPos)
+        {
+            var newPos = Vector3.MoveTowards(wallTrans.position, targetPos, followSpeed * Time.fixedDeltaTime);
+            
+            if (wallBody != null && !wallBody.isKinematic)
+            {
+                 // If somehow dynamic, we shouldn't force it, but let's assume Kinematic for hazards
+                 // Actually, SpikeWallDamage forces Kinematic.
+            }
+
+            if (wallBody != null)
+            {
+                wallBody.MovePosition(newPos);
+            }
+            else
+            {
+                wallTrans.position = newPos;
+            }
         }
 
         private Vector3 ResolveCenter()

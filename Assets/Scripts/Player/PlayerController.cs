@@ -5,6 +5,7 @@ using UnityEngine;
 namespace SlopJam.Player
 {
     [RequireComponent(typeof(PlayerRuntime))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour, IKnockbackable
     {
         [SerializeField] private float rotationSmoothTime = 0.05f;
@@ -19,12 +20,34 @@ namespace SlopJam.Player
 
         private PlayerRuntime runtime;
         private InputService inputService;
+        private Rigidbody2D rb;
+        
         private Vector3 aimDirection = Vector3.up;
         private Vector3 externalVelocity = Vector3.zero;
+        private Vector2 currentMoveInput;
         
         private void Awake()
         {
             runtime = GetComponent<PlayerRuntime>();
+            
+            // Ensure Rigidbody2D exists and is configured
+            rb = GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                rb = gameObject.AddComponent<Rigidbody2D>();
+            }
+            rb.gravityScale = 0f;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+            // Ensure Collider2D exists
+            var col = GetComponent<Collider2D>();
+            if (col == null)
+            {
+                var circle = gameObject.AddComponent<CircleCollider2D>();
+                circle.radius = 0.25f; // Approximate size for player
+            }
+
             if (directionalSprite == null) directionalSprite = GetComponent<DirectionalSprite>();
             if (knockbackDamping <= 0f)
             {
@@ -57,23 +80,36 @@ namespace SlopJam.Player
                 return;
             }
 
-            HandleMovement();
+            currentMoveInput = inputService.Move;
+            HandleRotation();
             HandleShooting();
         }
 
-        private void HandleMovement()
+        private void FixedUpdate()
         {
-            var moveInput = inputService.Move;
-            var movement = new Vector3(moveInput.x, moveInput.y, 0f);
-            var baseVelocity = movement * runtime.Config.moveSpeed;
-            var displacement = (baseVelocity + externalVelocity) * Time.deltaTime;
-            transform.position += displacement;
+            if (inputService == null || runtime.Config == null)
+            {
+                return;
+            }
+            
+            HandlePhysicsMovement();
+        }
 
+        private void HandlePhysicsMovement()
+        {
+            var movement = new Vector3(currentMoveInput.x, currentMoveInput.y, 0f);
+            var baseVelocity = movement * runtime.Config.moveSpeed;
+            
             if (externalVelocity.sqrMagnitude > 0.0001f)
             {
-                externalVelocity = Vector3.MoveTowards(externalVelocity, Vector3.zero, knockbackDamping * Time.deltaTime);
+                externalVelocity = Vector3.MoveTowards(externalVelocity, Vector3.zero, knockbackDamping * Time.fixedDeltaTime);
             }
 
+            rb.linearVelocity = baseVelocity + externalVelocity;
+        }
+
+        private void HandleRotation()
+        {
             var aim = inputService.Aim;
             if (aim.sqrMagnitude > 0.0001f)
             {
