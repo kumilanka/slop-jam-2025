@@ -21,3 +21,5 @@
 - Created dedicated `FloorGenerator` component for spawning floor tiles.
 - Removed floor generation logic from `EnemySpawner`.
 - Configured floor to use `tiles_0` sprite, scaled down to 0.5, and centered at (-15, -3) to cover the gameplay area properly.
+- Updated FloorGenerator to support multiple tiles with Perlin noise variation.
+- Added .DS_Store to .gitignore and cleaned up existing .DS_Store files.
