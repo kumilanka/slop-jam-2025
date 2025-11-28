@@ -6,3 +6,9 @@
 - Added GameDirector orchestrator and UI Toolkit HUD/GameOver document (GameHUD.uxml/uss) with HUDDocumentView, wiring controllers to UI.
 - Iterated on input/aim/shoot issues: legacy input support, direct movement, 2D aiming, projectile spawning warnings, Rigidbody2D collisions, corrected rotation to match mouse.
 - Fixed player rotation issue where `Camera.main` was picking up the Bootstrap camera instead of the Gameplay camera; removed redundant Main Camera from Bootstrap scene.
+- Fixed enemy spawning and HUD initialization failures caused by missing GameDirector in the scene; implemented self-initialization fallbacks in EnemySpawner and HUDController.
+- Updated player graphics to use `character_right` sprite from `character.png` and adjusted rotation offset to 0.
+- Implemented directional sprite swapping in PlayerController; added fields for Up/Down/Left/Right sprites and separated aim rotation (via AimPivot) from body visual orientation.
+- Debugged "enemies not spawning" issue; found `EnemyBrain` was using 3D movement logic (zeroing Y axis, rotating Forward) which likely made them invisible/stuck. Fixed to use 2D XY movement and Z-axis rotation. Added debug logs to EnemySpawner.
+- Fixed "ammo not hitting enemies" bug by setting Projectile collider to Trigger, adding BoxCollider2D to Enemy prefab, and removing duplicate HealthComponent from Enemy.
+- Fixed "game continues after 0 health" bug by making GameOverView self-initialize and subscribe to Player death event (bypassing missing GameDirector).

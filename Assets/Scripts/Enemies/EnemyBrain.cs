@@ -41,14 +41,21 @@ namespace SlopJam.Enemies
             }
 
             var direction = (target.position - transform.position);
-            direction.y = 0f;
+            direction.z = 0f; // 2D Game uses XY plane
             var distance = direction.magnitude;
 
             if (distance > stoppingDistance)
             {
                 var movement = direction.normalized * config.moveSpeed * Time.deltaTime;
                 transform.position += movement;
-                transform.forward = direction.normalized;
+                
+                // Rotate to face player (2D)
+                if (direction.sqrMagnitude > 0.001f)
+                {
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    // Assuming sprite faces Right by default. If Up, subtract 90.
+                    transform.rotation = Quaternion.Euler(0f, 0f, angle);
+                }
             }
             else if (canAttack)
             {

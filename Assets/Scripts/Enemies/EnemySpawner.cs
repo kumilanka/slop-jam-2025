@@ -19,6 +19,37 @@ namespace SlopJam.Enemies
             player = playerRuntime;
         }
 
+        private void Start()
+        {
+            if (player == null)
+            {
+                player = FindFirstObjectByType<PlayerRuntime>();
+                if (player == null)
+                {
+                    Debug.LogError("[EnemySpawner] PlayerRuntime not found in scene!");
+                }
+                else
+                {
+                    Debug.Log("[EnemySpawner] PlayerRuntime found and assigned.");
+                }
+            }
+
+            if (spawnPoints.Count == 0)
+            {
+                Debug.LogError("[EnemySpawner] No spawn points configured!");
+            }
+
+            if (enemyPrefab == null)
+            {
+                Debug.LogError("[EnemySpawner] Enemy Prefab is missing!");
+            }
+
+            if (enemyConfig == null)
+            {
+                Debug.LogError("[EnemySpawner] Enemy Config is missing!");
+            }
+        }
+
         private void Update()
         {
             if (player == null || enemyPrefab == null || enemyConfig == null)
@@ -29,6 +60,7 @@ namespace SlopJam.Enemies
             CleanupDeadEnemies();
             while (activeEnemies.Count < simultaneousEnemies)
             {
+                Debug.Log($"[EnemySpawner] Spawning enemy. Active: {activeEnemies.Count}, Target: {simultaneousEnemies}");
                 SpawnEnemy();
             }
         }

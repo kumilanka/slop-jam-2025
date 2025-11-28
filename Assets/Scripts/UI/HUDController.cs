@@ -7,6 +7,15 @@ namespace SlopJam.UI
     {
         [SerializeField] private HUDDocumentView documentView;
 
+        private void Start()
+        {
+            var player = FindFirstObjectByType<PlayerRuntime>();
+            if (player != null)
+            {
+                Bind(player);
+            }
+        }
+
         public void Bind(PlayerRuntime player)
         {
             if (player == null)

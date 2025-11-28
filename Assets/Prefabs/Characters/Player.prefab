@@ -120,8 +120,8 @@ Transform:
   m_GameObject: {fileID: 8736956497246738276}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.37145, y: 0.17812, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.5081, y: -0.008199941, z: 0}
+  m_LocalScale: {x: 0.16537103, y: 0.14594129, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1710694572107260072}
@@ -174,7 +174,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -1685536238, guid: 939265babc6e5470a8822a3ee5740742, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -225,6 +225,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlopJam.Player.PlayerController
   rotationSmoothTime: 0.05
+  rotationOffset: 0
+  spriteRenderer: {fileID: 5489834337834169384}
+  spriteUp: {fileID: 589916845, guid: 939265babc6e5470a8822a3ee5740742, type: 3}
+  spriteDown: {fileID: -2084552089, guid: 939265babc6e5470a8822a3ee5740742, type: 3}
+  spriteLeft: {fileID: 1600715155, guid: 939265babc6e5470a8822a3ee5740742, type: 3}
+  spriteRight: {fileID: -1685536238, guid: 939265babc6e5470a8822a3ee5740742, type: 3}
+  aimPivot: {fileID: 0}
 --- !u!114 &8335318039730619770
 MonoBehaviour:
   m_ObjectHideFlags: 0
