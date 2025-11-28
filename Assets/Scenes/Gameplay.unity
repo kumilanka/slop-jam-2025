@@ -316,6 +316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248151183}
   - component: {fileID: 1248151182}
+  - component: {fileID: 5566778899}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -341,6 +342,26 @@ MonoBehaviour:
   - {fileID: 2053594452}
   - {fileID: 1165792189}
   simultaneousEnemies: 3
+--- !u!114 &5566778899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248151181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ae932a6931a40e5bf78942f210f950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlopJam.Core.FloorGenerator
+  floorSprites:
+  - {fileID: -1483484065, guid: 6a2751c0302294f4087f5a6aaad4724d, type: 3}
+  - {fileID: 170161197, guid: 6a2751c0302294f4087f5a6aaad4724d, type: 3}
+  noiseScale: 0.1
+  width: 40
+  height: 40
+  centerPosition: {x: -15, y: -3}
+  tileSize: 0.5
 --- !u!4 &1248151183
 Transform:
   m_ObjectHideFlags: 0
