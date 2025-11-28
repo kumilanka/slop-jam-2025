@@ -1,0 +1,10 @@
+Binding of Isaac style topdown action game
+Movable character on screen
+Move with wasd keys
+Aim with mouse and shoot with mouse button
+Enemies that moves towards player
+When enemies reach player they stop moving and attack
+When enemy attacks it makes damage to player
+Player has 5 health
+Enemy does 1 damage
+When player health is zero it dies and game ends
